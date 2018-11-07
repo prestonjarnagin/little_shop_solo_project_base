@@ -25,13 +25,15 @@ Rails.application.routes.draw do
   end
   resources :order_items, only: [:update]
 
-  resources :items, only: [:index, :show]
-  resources :users, only: [:index, :new, :create, :edit, :show, :update] do 
+  resources :items, only: [:index, :show] do
+    resources :reviews, only: [:create, :new]
+  end
+  resources :users, only: [:index, :new, :create, :edit, :show, :update] do
     resources :orders, only: [:index, :update]
     patch 'enable', to: 'users#update'
     patch 'disable', to: 'users#update'
   end
-  
+
   resources :merchants, only: [:index, :update, :show] do
     resources :orders, only: [:index]
     resources :items, only: [:index, :new, :edit, :create, :update] do
@@ -39,7 +41,7 @@ Rails.application.routes.draw do
       patch 'disable', to: 'items#update'
     end
   end
-  
+
   resources :carts, path: '/cart', only: [:index]
   delete '/cart', to: 'carts#empty'
   delete '/cart/:item_id', to: 'carts#remove'

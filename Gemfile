@@ -45,6 +45,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'factory_bot_rails'
   gem 'database_cleaner'
+  gem 'fuubar'
 end
 
 group :development do

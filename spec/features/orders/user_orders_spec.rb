@@ -7,28 +7,28 @@ RSpec.describe 'User Order pages' do
     @msg_no_orders_yet = 'Sorry there are no orders yet.'
   end
 
-  context 'admin user' do 
+  context 'admin user' do
     context 'having order data' do
       before(:each) do
         @merchant = create(:merchant)
         @item_1, @item_2, @item_3, @item_4, @item_5 = create_list(:item, 5, user: @merchant)
-        
+
         @order_1 = create(:order, user: @user)
         create(:order_item, order: @order_1, item: @item_1)
         create(:order_item, order: @order_1, item: @item_2)
-    
+
         @order_2 = create(:completed_order, user: @user)
         create(:fulfilled_order_item, order: @order_2, item: @item_2)
         create(:fulfilled_order_item, order: @order_2, item: @item_3)
-    
+
         @order_3 = create(:cancelled_order, user: @user)
         create(:order_item, order: @order_3, item: @item_3)
         create(:order_item, order: @order_3, item: @item_4)
-    
+
         @order_4 = create(:disabled_order, user: @user)
         create(:order_item, order: @order_4, item: @item_1)
         create(:order_item, order: @order_4, item: @item_3)
-    
+
       end
       scenario 'allows admin user to see all personal orders for a user' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
@@ -50,7 +50,7 @@ RSpec.describe 'User Order pages' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
         merchant = create(:merchant)
         @item_1, @item_2, @item_3, @item_4, @item_5 = create_list(:item, 5, user: merchant)
-    
+
         visit orders_path
 
         expect(page).to_not have_content(@msg_no_orders_yet)
@@ -74,10 +74,10 @@ RSpec.describe 'User Order pages' do
       @order_1 = create(:order, user: @user)
       create(:order_item, order: @order_1, item: @item_1)
       create(:order_item, order: @order_1, item: @item_2)
-  
+
       @order_2 = create(:disabled_order, user: @user)
       create(:order_item, order: @order_2, item: @item_3)
-  
+
       visit orders_path
 
       expect(page).to_not have_content(@msg_no_orders_yet)
@@ -100,5 +100,46 @@ RSpec.describe 'User Order pages' do
 
       expect(page).to have_content(@msg_no_orders_yet)
     end
+
+    it 'should allow me to navigate to leave a new review' do
+      merchant = create(:merchant)
+      @item_1, @item_2, @item_3, @item_4, @item_5 = create_list(:item, 5, user: merchant)
+
+      @order_1 = create(:order, user: @user)
+      create(:order_item, order: @order_1, item: @item_1)
+      create(:order_item, order: @order_1, item: @item_2)
+
+      @order_2 = create(:disabled_order, user: @user)
+      create(:order_item, order: @order_2, item: @item_3)
+
+      visit orders_path
+
+      click_button("Leave Review", :match => :first)
+      expect(current_path).to eq(new_item_review_path(@item_1))
+    end
+
+    it 'should allow me to navigate to leave a new review' do
+      merchant = create(:merchant)
+      @item_1, @item_2, @item_3, @item_4, @item_5 = create_list(:item, 5, user: merchant)
+
+      @order_1 = create(:order, user: @user)
+      create(:order_item, order: @order_1, item: @item_1)
+      create(:order_item, order: @order_1, item: @item_2)
+
+      @order_2 = create(:disabled_order, user: @user)
+      create(:order_item, order: @order_2, item: @item_3)
+      review = create(:review)
+      visit new_item_review_path(@item_1)
+      fill_in 'Title', with: review.title
+      fill_in 'Description', with: review.description
+      find(:select, 'Rating').first(:option, review.rating).select_option
+      click_on 'Create Review'
+      expect(current_path).to eq(item_path(@item_1))
+      save_and_open_page
+      expect(page).to have_content(review.title)
+      expect(page).to have_content(review.description)
+      expect(page).to have_content("Rating: #{review.rating}")
+    end
+
   end
 end
