@@ -118,7 +118,7 @@ RSpec.describe 'User Order pages' do
       expect(current_path).to eq(new_item_review_path(@item_1))
     end
 
-    it 'should allow me to navigate to leave a new review' do
+    it 'should show me my review after leaving it' do
       merchant = create(:merchant)
       @item_1, @item_2, @item_3, @item_4, @item_5 = create_list(:item, 5, user: merchant)
 
