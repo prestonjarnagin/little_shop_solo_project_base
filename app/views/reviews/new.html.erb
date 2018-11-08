@@ -8,5 +8,7 @@
   <%= f.label :rating %>
   <%= f.select :rating, [['1',1],['2',2],['3',3],['4',4],['5',5]] %>
 
+  <%= hidden_field_tag 'order_item_id', @order_item.id  %>
+
   <%= f.submit %>
 <% end %>

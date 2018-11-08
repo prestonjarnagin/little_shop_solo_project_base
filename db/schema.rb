@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 20181107210458) do
     t.text "description"
     t.integer "rating"
     t.bigint "order_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["order_item_id"], name: "index_reviews_on_order_item_id"
   end
 

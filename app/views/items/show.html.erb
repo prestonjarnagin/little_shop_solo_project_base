@@ -37,10 +37,12 @@
 
 <div id="reviews">
   <% @reviews.each do |review| %>
-    <%= review.order_item.order.user.name %>
-    <%= review.title %>
-    <%= review.description %>
-    Rating: <%= review.rating %>/5
+    <div class="review", id="review-<%= review.id %>">
+      <%= review.order_item.order.user.name %>
+      <%= review.title %>
+      <%= review.description %>
+      Rating: <%= review.rating %>/5
+    </div>
   <% end %>
 
 </div>

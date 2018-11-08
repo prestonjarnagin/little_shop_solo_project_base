@@ -31,12 +31,12 @@ Sorry there are no orders yet.
         <td><%= order.status %></td>
         <td id="order-details-<%= order.id %>">
           <% order.order_items.each do |o_item| %>
-          <div id="item-<%= o_item.id %>">
+          <div id="order-item-<%= o_item.id %>">
             <%= o_item.item.name %>
             quantity: <%= o_item.quantity %>
             price: <%= number_to_currency(o_item.price) %>
             subtotal: <%= number_to_currency(o_item.subtotal) %>
-            <%= button_to 'Leave Review', new_item_review_path(o_item.item), method: 'get' %>
+            <%= button_to "Leave Review", new_item_review_path(o_item.item, order_item: o_item.id), method: 'get' %>
             <br />
           </div>
           <% end %>
