@@ -33,15 +33,16 @@
 <% if current_admin? || current_user == @item.user %>
 <%= link_to 'Edit', edit_merchant_item(@item.user, @item) %> |
 <% end %>
-<%= link_to 'Back', items_path %>
-
+<%= link_to 'Back', items_path %> <br />
+<br />
 <div id="reviews">
   <% @reviews.each do |review| %>
     <div class="review", id="review-<%= review.id %>">
-      <%= review.order_item.order.user.name %>
-      <%= review.title %>
-      <%= review.description %>
-      Rating: <%= review.rating %>/5
+      <p><strong><%= review.order_item.order.user.name %></strong> - <%= review.title %></p>
+
+      <p><%= review.description %></p>
+      Rating: <%= review.rating %>/5 <br />
+      <br />
     </div>
   <% end %>
 

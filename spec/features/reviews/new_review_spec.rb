@@ -31,7 +31,7 @@ RSpec.describe 'Reviews' do
     create(:order_item, order: @order_1, item: @item_1)
     visit orders_path
 
-    click_button("Leave Review", :match => :first)
+    click_link("Leave Review", :match => :first)
     expect(current_path).to eq(new_item_review_path(@item_1))
   end
 
@@ -40,7 +40,7 @@ RSpec.describe 'Reviews' do
 
     visit orders_path
     within ("#order-item-#{o_item_1.id}") do
-      click_button("Leave Review")
+      click_link("Leave Review")
     end
     fill_in 'Title', with: "Review Title 1"
     fill_in 'Description', with: "Review Description 1"
@@ -59,7 +59,7 @@ RSpec.describe 'Reviews' do
 
     visit orders_path
     within ("#order-item-#{o_item_1.id}") do
-      click_button("Leave Review")
+      click_link("Leave Review")
     end
 
     fill_in 'Title', with: "Review Title 1"
@@ -69,7 +69,7 @@ RSpec.describe 'Reviews' do
 
     visit orders_path
     within ("#order-item-#{o_item_2.id}") do
-      click_button("Leave Review")
+      click_link("Leave Review")
     end
 
     fill_in 'Title', with: "Review Title 2"
@@ -90,7 +90,7 @@ RSpec.describe 'Reviews' do
 
     visit orders_path
     within ("#order-item-#{o_item_1.id}") do
-      click_button("Leave Review")
+      click_link("Leave Review")
     end
 
     fill_in 'Title', with: "Review Title 1"
@@ -114,7 +114,7 @@ RSpec.describe 'Reviews' do
 
     visit orders_path
     within ("#order-item-#{o_item_1.id}") do
-      click_button("Leave Review")
+      click_link("Leave Review")
     end
 
     fill_in 'Title', with: "Review Title 1"
@@ -137,7 +137,7 @@ RSpec.describe 'Reviews' do
 
     visit orders_path
     within ("#order-item-#{cancelled_o_item_1.id}") do
-      click_button("Leave Review")
+      click_link("Leave Review")
     end
 
     fill_in 'Title', with: "Review Title 1"

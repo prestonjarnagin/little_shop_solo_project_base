@@ -36,7 +36,7 @@ Sorry there are no orders yet.
             quantity: <%= o_item.quantity %>
             price: <%= number_to_currency(o_item.price) %>
             subtotal: <%= number_to_currency(o_item.subtotal) %>
-            <%= button_to "Leave Review", new_item_review_path(o_item.item, order_item: o_item.id), method: 'get' %>
+            <%= link_to "Leave Review", new_item_review_path(o_item.item, order_item: o_item.id) %>
             <br />
           </div>
           <% end %>

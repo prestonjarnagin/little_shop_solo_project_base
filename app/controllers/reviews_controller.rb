@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
 
   def new
+    params
     @item = Item.find(params[:item_id])
     @review = Review.new
     @order_item = OrderItem.find(params[:order_item])

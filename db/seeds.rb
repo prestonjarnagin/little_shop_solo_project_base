@@ -8,7 +8,7 @@ Item.destroy_all
 User.destroy_all
 
 admin = create(:admin)
-user = create(:user)
+user = create(:user, email: "user@gmail.com", password: "password")
 merchant_1 = create(:merchant)
 
 merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)

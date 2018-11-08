@@ -95,10 +95,11 @@ RSpec.describe 'User Order pages' do
       end
       expect(page).to have_content("grand total: $#{@order_1.total}")
     end
+
     it 'should show all orders when a user visits their own order page' do
       visit orders_path
 
       expect(page).to have_content(@msg_no_orders_yet)
     end
-
+  end
 end
