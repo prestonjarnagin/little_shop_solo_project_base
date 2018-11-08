@@ -8,4 +8,9 @@ class Review < ApplicationRecord
   validates_presence_of :rating
   validates_numericality_of :rating
 
+  def self.reviews_for_item(item_id)
+    ids = OrderItem.where(item_id: item_id).ids
+    Review.where(order_item_id: ids)
+  end
+
 end

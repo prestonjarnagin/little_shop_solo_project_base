@@ -36,7 +36,11 @@
 <%= link_to 'Back', items_path %>
 
 <div id="reviews">
-
-  
+  <% @reviews.each do |review| %>
+    <%= review.order_item.order.user.name %>
+    <%= review.title %>
+    <%= review.description %>
+    Rating: <%= review.rating %>/5
+  <% end %>
 
 </div>

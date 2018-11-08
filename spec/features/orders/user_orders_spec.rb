@@ -120,25 +120,68 @@ RSpec.describe 'User Order pages' do
 
     it 'should show me my review after leaving it' do
       merchant = create(:merchant)
-      @item_1, @item_2, @item_3, @item_4, @item_5 = create_list(:item, 5, user: merchant)
+      @item_1 = create(:item, user: merchant)
+      @item_2 = create(:item, user: merchant)
 
       @order_1 = create(:order, user: @user)
       create(:order_item, order: @order_1, item: @item_1)
       create(:order_item, order: @order_1, item: @item_2)
 
-      @order_2 = create(:disabled_order, user: @user)
-      create(:order_item, order: @order_2, item: @item_3)
-      review = create(:review)
       visit new_item_review_path(@item_1)
-      fill_in 'Title', with: review.title
-      fill_in 'Description', with: review.description
-      find(:select, 'Rating').first(:option, review.rating).select_option
+      fill_in 'Title', with: "Review Title 1"
+      fill_in 'Description', with: "Review Description 1"
+      select "4", :from => "Rating"
       click_on 'Create Review'
       expect(current_path).to eq(item_path(@item_1))
-      save_and_open_page
-      expect(page).to have_content(review.title)
-      expect(page).to have_content(review.description)
-      expect(page).to have_content("Rating: #{review.rating}")
+
+      visit new_item_review_path(@item_1)
+      fill_in 'Title', with: "Review Title 2"
+      fill_in 'Description', with: "Review Description 2"
+      select "2", :from => "Rating"
+      click_on 'Create Review'
+      expect(current_path).to eq(item_path(@item_1))
+
+
+      expect(page).to have_content("Review Title 1")
+      expect(page).to have_content("Review Description 1")
+      expect(page).to have_content("Rating: 4/5")
+
+      expect(page).to have_content("Review Title 2")
+      expect(page).to have_content("Review Description 2")
+      expect(page).to have_content("Rating: 2/5")
+    end
+
+    it 'shouldnt let me leave a review for an unfulfilled order' do
+      merchant = create(:merchant)
+      @item_1 = create(:item, user: merchant)
+      @item_2 = create(:item, user: merchant)
+
+      @order_1 = create(:order, user: @user)
+      create(:order_item, order: @order_1, item: @item_1)
+      create(:order_item, order: @order_1, item: @item_2)
+
+      visit new_item_review_path(@item_1)
+      fill_in 'Title', with: "Review Title 1"
+      fill_in 'Description', with: "Review Description 1"
+      select "4", :from => "Rating"
+      click_on 'Create Review'
+      expect(current_path).to eq(item_path(@item_1))
+
+      visit new_item_review_path(@item_1)
+      fill_in 'Title', with: "Review Title 2"
+      fill_in 'Description', with: "Review Description 2"
+      select "2", :from => "Rating"
+      click_on 'Create Review'
+      expect(current_path).to eq(item_path(@item_1))
+
+
+      expect(page).to have_content("Review Title 1")
+      expect(page).to have_content("Review Description 1")
+      expect(page).to have_content("Rating: 4/5")
+
+      expect(page).to have_content("Review Title 2")
+      expect(page).to have_content("Review Description 2")
+      expect(page).to have_content("Rating: 2/5")
     end
 
   end
